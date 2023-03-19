@@ -1,0 +1,82 @@
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'main'
+      - 'graalvm'
+    paths:
+      - 'graalvm/**'
+  pull_request:
+    branches:
+      - 'main'
+      - 'graalvm'
+    paths:
+      - 'graalvm/**'
+
+permissions:
+  contents: read
+  packages: write
+
+name: Build graalvm docker image
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: plantuml/graalvm
+  TEST_TAG: plantuml/graalvm:test
+  DOCKER_CONTEXT: graalvm
+  REGISTRY_USER: ${{ github.actor }}
+  REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+  #PUSH_TO_REGISTRY: ${{ github.event_name != 'pull_request' }}
+  PUSH_TO_REGISTRY: ${{ github.event_name == 'push' }}
+
+jobs:
+  ci-graalvm-docker-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ env.REGISTRY_USER }}
+          password: ${{ env.REGISTRY_PASSWORD }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: ${{ env.DOCKER_CONTEXT }}
+          load: true
+          tags: ${{ env.TEST_TAG }}
+
+      - name: Test
+        run: |
+          docker run --rm --entrypoint /bin/bash ${{ env.TEST_TAG }} container-test.sh
+
+      - name: Build and push Docker image
+        if:  ${{ env.PUSH_TO_REGISTRY}}
+        uses: docker/build-push-action@v4
+        with:
+          context: ${{ env.DOCKER_CONTEXT }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Summary
+        env:
+          TAGS: ${{ steps.meta.outputs.tags }}
+          LABELS: ${{ steps.meta.outputs.labels }}
+        run: |
+          echo "## Summary:" >> $GITHUB_STEP_SUMMARY
+          echo "### Tags" >> $GITHUB_STEP_SUMMARY
+          echo "$TAGS" >> $GITHUB_STEP_SUMMARY
+          echo "### Labels" >> $GITHUB_STEP_SUMMARY
+          echo "$LABELS" >> $GITHUB_STEP_SUMMARY
+
