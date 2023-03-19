@@ -21,8 +21,8 @@ name: Build graalvm docker image
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: plantuml/graalvm
-  TEST_TAG: plantuml/graalvm:test
+  IMAGE_NAME: evantill/graalvm
+  TEST_TAG: evantill/graalvm:test
   DOCKER_CONTEXT: graalvm
   REGISTRY_USER: ${{ github.actor }}
   REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
