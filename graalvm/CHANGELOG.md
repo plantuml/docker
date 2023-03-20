@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.1.0](https://github.com/plantuml/docker/compare/graalvm-v0.0.3...graalvm-v0.1.0) (2023-03-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* **graalvm:** clear test container script ([#11](https://github.com/plantuml/docker/issues/11))
+
+### Bug Fixes
+
+* **graalvm:** clear test container script ([#11](https://github.com/plantuml/docker/issues/11)) ([bcf6fcc](https://github.com/plantuml/docker/commit/bcf6fcc2c93d33fb749f94f98da4a8e7dc65ff5f))
+
 ## [0.0.3](https://github.com/plantuml/docker/compare/graalvm-v0.0.2...graalvm-v0.0.3) (2023-03-20)
 
 
