@@ -50,3 +50,5 @@ After updating the code we will push the branch to github.
 1. Once checked we can **rebase** and merge (or squash and merge).
 
 1. We can delete the branch.
+
+1. The release is completed.
