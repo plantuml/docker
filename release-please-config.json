@@ -1,0 +1,10 @@
+{
+  "bump-minor-pre-major": true,
+  "bump-patch-for-minor-pre-major": true,
+  "release-type": "simple",
+  "separate-pull-requests": true,
+
+  "packages": {
+
+  }
+}
