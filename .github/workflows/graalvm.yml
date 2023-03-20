@@ -26,3 +26,4 @@ jobs:
       component: "graalvm"
       publish: ${{ github.event_name != 'pull_request' }}
     secrets: inherit
+# testing hot fix of workflow

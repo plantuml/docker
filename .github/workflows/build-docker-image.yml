@@ -12,11 +12,8 @@ on:
         required: true
         default: false
       runs-on:
-        type: choice
-        required: true
-        options:
-          - ubuntu-latest
-          - windows-latest
+        type: string
+        required: false
         default: ubuntu-latest
 
 permissions:
