@@ -11,6 +11,13 @@ on:
         type: boolean
         required: true
         default: false
+      runs-on:
+        type: choice
+        required: true
+        options:
+          - ubuntu-latest
+          - windows-latest
+        default: ubuntu-latest
 
 permissions:
   contents: read
@@ -24,7 +31,7 @@ env:
 
 jobs:
   build-docker-image:
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runs-on }}
     steps:
 
       - name: Checkout repository
