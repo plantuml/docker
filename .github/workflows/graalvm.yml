@@ -1,0 +1,28 @@
+on:
+  push:
+    branches:
+      - 'master'
+    tags:
+      - 'graalvm-v*'
+    paths:
+      - 'graalvm/**'
+  pull_request:
+    paths:
+      - 'graalvm/**'
+
+permissions:
+  contents: read
+  packages: write
+
+name: graalvm
+
+jobs:
+  build-graalvm-docker-image:
+    permissions:
+      contents: read
+      packages: write
+    uses: ./.github/workflows/build-docker-image.yml
+    with:
+      component: "graalvm"
+      publish: ${{ github.event_name != 'pull_request' }}
+    secrets: inherit

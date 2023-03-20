@@ -5,6 +5,8 @@
   "separate-pull-requests": true,
 
   "packages": {
-
+    "graalvm": {
+      "component": "graalvm"
+    }
   }
 }
