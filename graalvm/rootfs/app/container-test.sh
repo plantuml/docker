@@ -2,9 +2,6 @@
 
 set -euxo pipefail
 
-#mkdir /app
-#cd /app
-
 cat << EOF > Example.java
 public class Example {
 
