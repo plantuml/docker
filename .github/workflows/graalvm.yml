@@ -9,7 +9,7 @@ on:
   pull_request:
     paths:
       - 'graalvm/**'
-
+      - '.github/workflows/**'
 permissions:
   contents: read
   packages: write
@@ -26,4 +26,3 @@ jobs:
       component: "graalvm"
       publish: ${{ github.event_name != 'pull_request' }}
     secrets: inherit
-# testing hot fix of workflow
