@@ -44,11 +44,11 @@ envsubst '$CONTAINER_IMAGE_NAME' < ../.github/scripts/Makefile.template >Makefil
 
 ## Add a github workflow
 
-Use the provided [workflow template](.github/templates/container-workflow-template.yml) replacing the variable `$CONTAINER_IMAGE_NAME` 
+Use the provided [build container template](.github/templates/build-container-template.yml) replacing the variable `$CONTAINER_NAME` 
 
 ```shell
-export WF_TEMPLATE=../.github/templates/container-workflow-template.yml
-envsubst '$CONTAINER_IMAGE_NAME' < ${WF_TEMPLATE} > ../.github/workflows/${CONTAINER_NAME}.yml
+export WF_TEMPLATE=../.github/templates/build-container-template.yml
+envsubst '$CONTAINER_NAME' < "$WF_TEMPLATE" > "../.github/workflows/build-$CONTAINER_NAME.yml"
 ```
 
 ## Add a version
