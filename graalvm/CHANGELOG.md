@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/plantuml/docker/compare/graalvm-v0.1.0...graalvm-v0.1.1) (2023-03-21)
+
+
+### Bug Fixes
+
+* **graalvm:** Add readme for graalvm container ([669bced](https://github.com/plantuml/docker/commit/669bcedea4e84571c02849db1fd1e1ac8e3c4811))
+
 ## [0.1.0](https://github.com/plantuml/docker/compare/graalvm-v0.0.3...graalvm-v0.1.0) (2023-03-20)
 
 
