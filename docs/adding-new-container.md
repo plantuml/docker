@@ -4,7 +4,7 @@ We are going to add `myRepo` as an example.
 
 ```shell
 export CONTAINER_DIR=myrepo
-export CONTAINER_NAME=myrepo
+export CONTAINER_NAME=$CONTAINER_DIR
 export CONTAINER_IMAGE_NAME=plantuml/$CONTAINER_NAME
 ```
 
@@ -44,12 +44,11 @@ envsubst '$CONTAINER_IMAGE_NAME' < ../.github/scripts/Makefile.template >Makefil
 
 ## Add a github workflow
 
-Use the provided [workflow template](.github/templates/container-workflow-template.yml) replacing the variable `$CONTAINER_IMAGE_NAME` 
+Use the provided [build container template](.github/templates/build-container-template.yml) replacing the variable `$CONTAINER_NAME` 
 
 ```shell
-export WF_TEMPLATE=../.github/templates/container-workflow-template.yml
-export 
-envsubst '$CONTAINER_IMAGE_NAME' < $WF_TEMPLATE > ../.github/templates/$CONTAINER_IMAGE_NAME
+export WF_TEMPLATE=../.github/templates/build-container-template.yml
+envsubst '$CONTAINER_NAME' < "$WF_TEMPLATE" > "../.github/workflows/build-$CONTAINER_NAME.yml"
 ```
 
 ## Add a version

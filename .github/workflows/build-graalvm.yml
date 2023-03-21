@@ -1,11 +1,9 @@
+name: Build graalvm container
+
 on:
   push:
-    branches:
-      - 'main'
     tags:
       - 'graalvm-v*'
-    paths:
-      - 'graalvm/**'
   pull_request:
     paths:
       - 'graalvm/**'
@@ -14,15 +12,13 @@ permissions:
   contents: read
   packages: write
 
-name: graalvm
-
 jobs:
-  build-graalvm-docker-image:
+  build-graalvm-container:
     permissions:
       contents: read
       packages: write
-    uses: ./.github/workflows/build-docker-image.yml
+    uses: ./.github/workflows/build-container.yml
     with:
       component: "graalvm"
-      publish: ${{ github.event_name != 'pull_request' }}
+      publish: ${{ github.event_name != 'pull_request' && startsWith(github.ref, 'refs/tags/graalvm-v') }}
     secrets: inherit

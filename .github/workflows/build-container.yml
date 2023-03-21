@@ -1,4 +1,5 @@
-name: Build docker image
+name: Build container
+
 on:
   workflow_call:
     inputs:
@@ -7,7 +8,7 @@ on:
         type: string
         required: true
       publish:
-        description: publish the docker image
+        description: publish the container image
         type: boolean
         required: true
         default: false
@@ -27,7 +28,7 @@ env:
   TEST_TAG: test
 
 jobs:
-  build-docker-image:
+  build-container:
     runs-on: ${{ inputs.runs-on }}
     steps:
 
@@ -47,18 +48,18 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ inputs.component }}
 
-      - name: Build Docker image
+      - name: Build container image
         uses: docker/build-push-action@v4
         with:
           context: ${{ inputs.component }}
           load: true
           tags: ${{ env.TEST_TAG }}
 
-      - name: Test Docker image
+      - name: Test container image
         run: |
           docker run --rm --entrypoint /bin/bash ${{ env.TEST_TAG }} container-test.sh
 
-      - name: Push Docker image
+      - name: Push container image
         if:  ${{ inputs.publish }}
         uses: docker/build-push-action@v4
         with:
