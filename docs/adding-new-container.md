@@ -4,7 +4,7 @@ We are going to add `myRepo` as an example.
 
 ```shell
 export CONTAINER_DIR=myrepo
-export CONTAINER_NAME=myrepo
+export CONTAINER_NAME=$CONTAINER_DIR
 export CONTAINER_IMAGE_NAME=plantuml/$CONTAINER_NAME
 ```
 
@@ -48,8 +48,7 @@ Use the provided [workflow template](.github/templates/container-workflow-templa
 
 ```shell
 export WF_TEMPLATE=../.github/templates/container-workflow-template.yml
-export 
-envsubst '$CONTAINER_IMAGE_NAME' < $WF_TEMPLATE > ../.github/templates/$CONTAINER_IMAGE_NAME
+envsubst '$CONTAINER_IMAGE_NAME' < ${WF_TEMPLATE} > ../.github/workflows/${CONTAINER_NAME}.yml
 ```
 
 ## Add a version

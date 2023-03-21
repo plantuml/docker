@@ -1,28 +1,24 @@
 on:
   push:
-    branches:
-      - 'main'
     tags:
-      - 'graalvm-v*'
-    paths:
-      - 'graalvm/**'
+      - 'plantuml/graalvm-v*'
   pull_request:
     paths:
-      - 'graalvm/**'
+      - 'plantuml/graalvm/**'
       - '.github/workflows/**'
 permissions:
   contents: read
   packages: write
 
-name: graalvm
+name: plantuml/graalvm
 
 jobs:
-  build-graalvm-docker-image:
+  build-plantuml/graalvm-docker-image:
     permissions:
       contents: read
       packages: write
     uses: ./.github/workflows/build-docker-image.yml
     with:
-      component: "graalvm"
-      publish: ${{ github.event_name != 'pull_request' }}
+      component: "plantuml/graalvm"
+      publish: ${{ github.event_name != 'pull_request' && startsWith(github.ref, 'refs/tags/plantuml/graalvm-v') }}
     secrets: inherit
