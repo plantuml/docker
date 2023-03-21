@@ -7,6 +7,9 @@
   "packages": {
     "graalvm": {
       "component": "graalvm"
+    },
+    "jekyll": {
+      "component": "jekyll"
     }
   }
 }
