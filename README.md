@@ -1,4 +1,17 @@
-# docker
+<div align="center">
+	<br />
+	<p>
+		<a href="https://discord.js.org">
+            <img src="./docs/plantuml_docker_banner_wb.png" alt="PlantUML Docker" />
+        </a>
+	</p>
+	<br />
+	<p>
+		<a href="https://discord.gg/sXhzexAQGh"><img src="https://img.shields.io/discord/1083727021328306236?color=5865F2&logo=discord&logoColor=white" alt="Discord server" /></a>
+    </p>
+</div>
+
+# Docker containers for PlantUML
 All dockers files for PlantUML
 
 ## Preamble
@@ -12,8 +25,9 @@ Release are provided using the [release-please-action](https://github.com/google
 
 ## List of containers
 
-- [graalvm](graalvm/README.md)
-- [jekyll](jekyll/README.md)
+- ### [graalvm](graalvm/README.md)
+
+- ### [jekyll](jekyll/README.md)
 
 ## Adding new container
 
