@@ -4,3 +4,5 @@ set -euo pipefail
 jekyll --version
 
 plantuml --version
+
+plantuml -testdot

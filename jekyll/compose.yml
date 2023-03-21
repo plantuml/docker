@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  jekyll:
+    image: plantuml/jekyll:latest
+    container_name: jekyll
+    environment:
+      JEKYLL_SITE_NAME: myPlantUml
+    ports:
+      - "4000:4000"
+    volumes:
+      - "./site:/srv/jekyll"
+    command: "jekyll-build-and-serve.sh"

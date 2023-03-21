@@ -1,5 +1,5 @@
 #!/bin/bash
-set -xeuo pipefail
+set -euo pipefail
 
 JEKYLL_SITE_NAME="${1?site name missing}"
 JEKYLL_SITE_ROOT_DIR=/srv/jekyll
@@ -16,10 +16,9 @@ if [ ! -d $JEKYLL_SITE_DIR ]; then
   echo "add missing bundles..."
   bundle add \
     public_suffix \
-    webrick
+    webrick \
+    jekyll-plantuml
   echo "site $JEKYLL_SITE_NAME is ready"
+else
+  echo "site $JEKYLL_SITE_NAME already created"
 fi
-
-echo "starting site $JEKYLL_SITE_NAME..."
-cd $JEKYLL_SITE_DIR
-jekyll serve
