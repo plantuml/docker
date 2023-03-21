@@ -39,7 +39,7 @@ Add the definition into the manifest file [release-please-config.json](./release
 Use the provided [Makefile template](.github/templates/Makefile.template) replacing the variable `$CONTAINER_IMAGE_NAME` 
 
 ```shell
-envsubst '$CONTAINER_IMAGE_NAME' < ../.github/scripts/Makefile.template >Makefile
+envsubst '$CONTAINER_IMAGE_NAME' < ../.github/templates/Makefile.template >Makefile
 ```
 
 ## Add a github workflow
@@ -59,7 +59,7 @@ We will use `0.1.0` as our first version
 echo '0.1.0' > version.txt
 
 # create taf myrepo-0.1.0
-echo -e "${CONTAINER_NAME}-$(cat version.txt)" | xargs git tag
+echo -e "$CONTAINER_NAME-$(cat version.txt)" | xargs git tag -a -m "new $CONTAINER_NAME container"
 ```
 
 ## Let's create our container
@@ -110,7 +110,7 @@ WORKDIR /app
 # Define default entrypoint
 ENTRYPOINT ["wget"]
 
-CMD ["--verison"]
+CMD ["--version"]
 EOF
 ```
 
