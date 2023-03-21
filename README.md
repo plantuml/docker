@@ -13,6 +13,7 @@ Release are provided using the [release-please-action](https://github.com/google
 ## List of containers
 
 - [graalvm](graalvm/README.md)
+- [jekyll](jekyll/README.md)
 
 ## Adding new container
 
