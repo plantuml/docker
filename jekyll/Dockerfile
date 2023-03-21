@@ -6,6 +6,11 @@ FROM jekyll/jekyll:${JEKYLL_VERSION}
 # including container-test.sh
 COPY ./rootfs /
 
+# Install dot
+RUN apk add --update --no-cache \
+           graphviz \
+           ttf-freefont
+
 RUN chmod a+x /usr/local/bin/plantuml && \
     wget https://github.com/plantuml/plantuml/releases/download/snapshot/plantuml-SNAPSHOT.jar && \
     mkdir -p /usr/local/share/plantuml && \

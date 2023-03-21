@@ -50,12 +50,21 @@ test:
 	docker run --rm --entrypoint /bin/bash $(DOCKER_IMAGE_NAME) container-test.sh
 
 # -----------------------------------------------------------------------------
+# Site
+# -----------------------------------------------------------------------------
+
+.PHONY: site
+site:
+	docker run --rm --volume="$(JEKYLL_SITE_ROOT_DIR):/srv/jekyll:Z" $(DOCKER_IMAGE_NAME) jekyll-create-site.sh $(JEKYLL_SITE_NAME)
+
+
+# -----------------------------------------------------------------------------
 # Serve
 # -----------------------------------------------------------------------------
 
 .PHONY: serve
 serve:
-	docker run --rm -it --volume="$(JEKYLL_SITE_ROOT_DIR):/srv/jekyll:Z" -p 4000:4000 $(DOCKER_IMAGE_NAME) jekyll-serve.sh $(JEKYLL_SITE_NAME)
+	docker run --rm -it --volume="$(JEKYLL_SITE_ROOT_DIR):/srv/jekyll:Z" -p 4000:4000 $(DOCKER_IMAGE_NAME) jekyll-serve-site.sh $(JEKYLL_SITE_NAME)
 
 # -----------------------------------------------------------------------------
 # Enter
