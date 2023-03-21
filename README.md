@@ -10,6 +10,10 @@ Commits are written following the
 
 Release are provided using the [release-please-action](https://github.com/google-github-actions/release-please-action) action with the [manifest releaser](https://github.com/googleapis/release-please/blob/main/docs/manifest-releaser.md).
 
+## List of containers
+
+- [graalvm](graalvm/README.md)
+
 ## Adding new container
 
 Details are in [Adding new container document](docs/adding-new-container.md).
@@ -17,7 +21,3 @@ Details are in [Adding new container document](docs/adding-new-container.md).
 ## Howto create a pull request
 
 Details are in [Howto create a pull request](docs/howto-create-a-pull-request.md).
-
-## List of containers
-
-- [graalvm](graalvm/README.md)
