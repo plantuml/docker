@@ -1,4 +1,4 @@
-# Jekyll container
+# Jekyll container [![Version](https://img.shields.io/badge/version-1.1.0-blue)](https://github.com/plantuml/docker/pkgs/container/docker%2Fjekyll)
 
 Container base on [jekyll/jekyll](https://hub.docker.com/r/jekyll/jekyll/) container.
 
