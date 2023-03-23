@@ -1,0 +1,16 @@
+on:
+  release:
+    types:
+      - released
+
+name: PlantUML CLI Release Announcement
+
+jobs:
+  release-announcement-plantuml-cli:
+    if: github.event_name == 'release' && contains(github.ref, '/plantuml-cli-v')
+    permissions:
+      contents: read
+    uses: ./.github/workflows/release-announcement.yml
+    with:
+      container-name: plantuml-cli
+    secrets: inherit
