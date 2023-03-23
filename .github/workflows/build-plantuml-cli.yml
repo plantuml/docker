@@ -1,0 +1,24 @@
+name: Build plantuml-cli container
+
+on:
+  push:
+    tags:
+      - 'plantuml-cli-v*'
+  pull_request:
+    paths:
+      - 'plantuml-cli/**'
+      - '.github/workflows/**'
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-graalvm-container:
+    permissions:
+      contents: read
+      packages: write
+    uses: ./.github/workflows/build-container.yml
+    with:
+      component: "plantuml-cli"
+      publish: ${{ github.event_name != 'pull_request' && startsWith(github.ref, 'refs/tags/plantuml-cli-v') }}
+    secrets: inherit
