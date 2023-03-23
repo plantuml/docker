@@ -1,0 +1,30 @@
+on:
+  workflow_call:
+    inputs:
+      container-name:
+        description: "name of the container"
+        type: string
+        required: true
+      repo-banner-url:
+        description: repository banner image url
+        type: string
+        required: false
+        default: "https://github.com/${{ github.repository }}/raw/main/.github/banner.png"
+      repo-avatar-url:
+        description: repository avatar iamge url
+        type: string
+        required: false
+        default: "https://github.com/${{ github.repository }}/raw/main/.github/avatar.png"
+
+name: Release Announcement
+
+jobs:
+  release-announcement-discord:
+    permissions:
+      contents: read
+    uses: ./.github/workflows/release-announcement-on-discord.yml
+    secrets: inherit
+    with:
+      thumbnail-url: "${{ inputs.repo-banner-url }}"
+      image-url: "${{ inputs.repo-avatar-url }}"
+      container-name: "${{ inputs.container-name }}"

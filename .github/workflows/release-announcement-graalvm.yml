@@ -1,0 +1,16 @@
+on:
+  release:
+    types:
+      - released
+
+name: Graalvm Release Announcement
+
+jobs:
+  release-announcement-graalvm:
+    if: github.event_name == 'release' && contains(github.ref, '/graalvm-v')
+    permissions:
+      contents: read
+    uses: ./.github/workflows/release-announcement.yml
+    with:
+      container-name: graalvm
+    secrets: inherit
