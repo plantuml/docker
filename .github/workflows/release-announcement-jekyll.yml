@@ -1,0 +1,16 @@
+on:
+  release:
+    types:
+      - released
+
+name: Jekyll Release Announcement
+
+jobs:
+  release-announcement-jekyll:
+    if: github.event_name == 'release' && contains(github.ref, '/jekyll-v')
+    permissions:
+      contents: read
+    uses: ./.github/workflows/release-announcement.yml
+    with:
+      container-name: jekyll
+    secrets: inherit

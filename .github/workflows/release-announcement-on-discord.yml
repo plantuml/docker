@@ -1,0 +1,75 @@
+on:
+  workflow_call:
+    inputs:
+      thumbnail-url:
+        description: thumbnail image url for embeds
+        type: string
+        required: false
+        default: "https://davidfpresents.com/wp-content/uploads/2018/02/shadok.jpg"
+      image-url:
+        description: image url for embeds
+        type: string
+        required: false
+        default: "https://miro.medium.com/v2/1*8-G_ojoQPPmnG8ig1RiZfg.png"
+      container-name:
+        description: name of the container
+        required: false
+        default: ""
+
+name: Release Announcement on Discord
+
+env:
+  DISCORD_WEBHOOK_RELEASE_ANNOUCEMENT: ${{ secrets.DISCORD_WEBHOOK_RELEASE_ANNOUCEMENT }}
+  DISCORD_USERNAME: Github
+  DISCORD_AVATAR_URL: https://avatars.githubusercontent.com/github
+  AUTHOR_ICON_URL: "${{ github.event.release.author.avatar_url }}"
+  AUTHOR_NAME: "${{ github.event.release.author.login }}"
+  CHANGELOG_URL: "${{ github.event.release.html_url }}"
+  RELEASE_DATE: "${{ github.event.release.created_at }}"
+  RELEASE_VERSION: "${{ github.event.release.tag_name }}"
+  REPOSITORY_DESCRIPTION: "${{ github.event.repository.description }}"
+  REPOSITORY_ID: "${{ github.repository }}"
+  REPOSITORY_NAME: "${{ github.event.repository.name }}"
+  CONTAINER_NAME: "${{ inputs.container-name }}"
+  IMAGE_URL: "${{ inputs.image-url }}"
+  THUMBNAIL_URL: "${{ inputs.thumbnail-url }}"
+
+jobs:
+  release-announcement-on-discord:
+    runs-on: ubuntu-latest
+    name: Sends custom message
+    steps:
+      - name: Send a message on discord
+        uses: MineBartekSA/discord-webhook@v2
+        with:
+          webhook: ${{ env.DISCORD_WEBHOOK_RELEASE_ANNOUCEMENT }}
+          username: ${{ env.DISCORD_USERNAME }}
+          avatar_url: ${{ env.DISCORD_AVATAR_URL }}
+          content: Thank you to all who have contributed in this great work.
+          component: |
+            - type: 1
+              components:
+                - style: 5
+                  type: 2
+                  label: ChangeLog
+                  url: ${{ env.CHANGELOG_URL }}
+          embed: |
+            title: "\U0001F389 ${{ env.REPOSITORY_NAME }} {{ env.CONTAINER_NAME }} version ${{ env.RELEASE_VERSION }} is published ! \U0001F389"
+            color: 0x892038
+            description: "${{ env.REPOSITORY_DESCRIPTION }}"
+            url: ${{ env.CHANGELOG_URL }}
+            image:
+              url: ${{ env.IMAGE_URL }}
+            fields:
+              - name: Project
+                value: ${{ env.REPOSITORY_ID }}
+              - name: Version
+                value: ${{ env.RELEASE_VERSION }}
+              - name: Release date
+                value: "${{ env.RELEASE_DATE }}"
+            timestamp: "${{ env.RELEASE_DATE }}"
+            thumbnail:
+              url: ${{ env.THUMBNAIL_URL }}
+            footer:
+              text: ${{ env.AUTHOR_NAME }}
+              icon_url: ${{ env.AUTHOR_ICON_URL }}
