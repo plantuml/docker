@@ -1,21 +1,32 @@
 <div align="center">
 	<br />
-	<p>
-		<a href="https://discord.js.org">
-            <img src="../.github/banner.png" alt="PlantUML Docker" />
-        </a>
+	<p>	
+		<img src="../.github/banner.png" alt="PlantUML Docker" />
 	</p>
 	<br />
 	<p>
-		<a href="https://discord.gg/sXhzexAQGh"><img src="https://img.shields.io/discord/1083727021328306236?color=5865F2&logo=discord&logoColor=white" alt="Discord server" /></a>
-    </p>
+		<a href="https://discord.gg/sXhzexAQGh">
+			<img src="https://img.shields.io/discord/1083727021328306236?color=5865F2&logo=discord&logoColor=white" alt="Discord server" />
+		</a>
+	</p>
+	<p><a href="https://github.com/plantuml/docker/pkgs/container/docker%2Fjekyll">
+			<img src="https://ghcr-badge.egpl.dev/plantuml/docker/jekyll/latest_tag?trim=major&label=latest%20version" alt="latest version" />
+			<img src="https://ghcr-badge.egpl.dev/plantuml/docker/jekyll/size?trim=major&label=latest%20size" alt="latest size" />
+			<br />
+			<img src="https://ghcr-badge.egpl.dev/plantuml/docker/jekyll/tags?trim=major" alt="container tags on github repository" />
+	</a></p>
 </div>
 
-# Jekyll container [![Version](https://img.shields.io/badge/version-1.1.0-blue)](https://github.com/plantuml/docker/pkgs/container/docker%2Fjekyll)
+# Jekyll & PlantUML container [![latest version][jekyll-badge-latest-version]][jekyll-package-url] [![image size][jekyll-badge-image-size]][jekyll-package-url]
+
+[jekyll-badge-latest-version]: https://ghcr-badge.egpl.dev/plantuml/docker/jekyll/latest_tag?trim=major&label=version
+[jekyll-badge-image-size]: https://ghcr-badge.egpl.dev/plantuml/docker/jekyll/size?trim=major&label=size
+[jekyll-package-url]: https://github.com/plantuml/docker/pkgs/container/docker%2Fjekyll
 
 Container base on [jekyll/jekyll](https://hub.docker.com/r/jekyll/jekyll/) container.
 
 - JEKYLL_VERSION: 4.2.2
+- PlantUML_VERSION: snapshot (20 mars 2023)
 
 ## Usage
 

@@ -1,9 +1,7 @@
 <div align="center">
 	<br />
 	<p>
-		<a href="https://discord.js.org">
-            <img src="./docs/plantuml_docker_banner_wb.png" alt="PlantUML Docker" />
-        </a>
+		<a href="https://discord.js.org"><img src="./.github/banner.png" alt="PlantUML Docker" /></a>
 	</p>
 	<br />
 	<p>
@@ -25,9 +23,23 @@ Release are provided using the [release-please-action](https://github.com/google
 
 ## List of containers
 
-- ### [graalvm](graalvm/README.md)
+- ### [plantuml-cli](plantuml-cli/README.md) [![latest version][plantuml-cli-badge-latest-version]][plantuml-cli-package-url] [![image size][plantuml-cli-badge-image-size]][plantuml-cli-package-url]
 
-- ### [jekyll](jekyll/README.md)
+[plantuml-cli-badge-latest-version]: https://ghcr-badge.egpl.dev/plantuml/docker/plantuml-cli/latest_tag?trim=major&label=version
+[plantuml-cli-badge-image-size]: https://ghcr-badge.egpl.dev/plantuml/docker/plantuml-cli/size?trim=major&label=size
+[plantuml-cli-package-url]: https://github.com/plantuml/docker/pkgs/container/docker%2Fplantuml-cli
+
+- ### [jekyll](jekyll/README.md) [![latest version][jekyll-badge-latest-version]][jekyll-package-url] [![image size][jekyll-badge-image-size]][jekyll-package-url]
+
+[jekyll-badge-latest-version]: https://ghcr-badge.egpl.dev/plantuml/docker/jekyll/latest_tag?trim=major&label=version
+[jekyll-badge-image-size]: https://ghcr-badge.egpl.dev/plantuml/docker/jekyll/size?trim=major&label=size
+[jekyll-package-url]: https://github.com/plantuml/docker/pkgs/container/docker%2Fjekyll
+
+- ### [graalvm](graalvm/README.md) [![latest version][graalvm-badge-latest-version]][graalvm-package-url] [![image size][graalvm-badge-image-size]][graalvm-package-url]
+
+[graalvm-badge-latest-version]: https://ghcr-badge.egpl.dev/plantuml/docker/graalvm/latest_tag?trim=major&label=version
+[graalvm-badge-image-size]: https://ghcr-badge.egpl.dev/plantuml/docker/graalvm/size?trim=major&label=size
+[graalvm-package-url]: https://github.com/plantuml/docker/pkgs/container/docker%2Fgraalvm
 
 ## Adding new container
 
