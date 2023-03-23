@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-plantuml --version
+plantuml -version
 
 plantuml -testdot
