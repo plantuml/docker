@@ -25,6 +25,6 @@ jobs:
     uses: ./.github/workflows/release-announcement-on-discord.yml
     secrets: inherit
     with:
-      thumbnail-url: "${{ inputs.repo-banner-url }}"
-      image-url: "${{ inputs.repo-avatar-url }}"
+      thumbnail-url: "${{ inputs.repo-avatar-url }}"
+      image-url: "${{ inputs.repo-banner-url }}"
       container-name: "${{ inputs.container-name }}"

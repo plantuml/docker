@@ -55,7 +55,7 @@ jobs:
                   label: ChangeLog
                   url: ${{ env.CHANGELOG_URL }}
           embed: |
-            title: "\U0001F389 ${{ env.REPOSITORY_NAME }} {{ env.CONTAINER_NAME }} version ${{ env.RELEASE_VERSION }} is published ! \U0001F389"
+            title: "\U0001F389 ${{ env.REPOSITORY_NAME }} ${{ env.CONTAINER_NAME }} version ${{ env.RELEASE_VERSION }} is published ! \U0001F389"
             color: 0x892038
             description: "${{ env.REPOSITORY_DESCRIPTION }}"
             url: ${{ env.CHANGELOG_URL }}
