@@ -1,4 +1,5 @@
 {
   "graalvm": "0.1.1",
-  "jekyll": "1.1.0"
+  "jekyll": "1.1.0",
+  "plantuml-cli": "1.0.0"
 }
