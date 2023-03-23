@@ -2,7 +2,7 @@
 	<br />
 	<p>
 		<a href="https://discord.js.org">
-            <img src="./docs/banner_wb.png" alt="PlantUML Docker" />
+            <img src="../.github/banner.png" alt="PlantUML Docker" />
         </a>
 	</p>
 	<br />
