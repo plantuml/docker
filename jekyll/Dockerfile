@@ -11,10 +11,13 @@ RUN apk add --update --no-cache \
            graphviz \
            ttf-freefont
 
+ARG PLANTUML_VERSION=1.2023.4
+ARG PLANTUML_TAG=v1.2023.4
+
 RUN chmod a+x /usr/local/bin/plantuml && \
-    wget https://github.com/plantuml/plantuml/releases/download/snapshot/plantuml-SNAPSHOT.jar && \
+    wget https://github.com/plantuml/plantuml/releases/download/${PLANTUML_TAG}/plantuml-pdf-${PLANTUML_VERSION}.jar && \
     mkdir -p /usr/local/share/plantuml && \
-    mv plantuml-SNAPSHOT.jar /usr/local/share/plantuml/plantuml.jar && \
+    mv plantuml-pdf-${PLANTUML_VERSION}.jar /usr/local/share/plantuml/plantuml.jar && \
     gem install jekyll-plantuml
 
 CMD ["jekyll", "--help"]
