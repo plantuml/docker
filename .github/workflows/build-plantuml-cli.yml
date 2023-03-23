@@ -13,7 +13,7 @@ permissions:
   packages: write
 
 jobs:
-  build-graalvm-container:
+  build-plantuml-cli-container:
     permissions:
       contents: read
       packages: write
