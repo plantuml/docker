@@ -26,7 +26,8 @@
 Container base on [jekyll/jekyll](https://hub.docker.com/r/jekyll/jekyll/) container.
 
 - JEKYLL_VERSION: 4.2.2
-- PlantUML_VERSION: snapshot (20 mars 2023)
+- PLANTUML_VERSION: 1.2023.4
+- PLANTUML_TAG: v1.2023.4
 
 ## Usage
 
@@ -37,7 +38,7 @@ Container base on [jekyll/jekyll](https://hub.docker.com/r/jekyll/jekyll/) conta
     version: "3.8"
     services:
       jekyll:
-        image: plantuml/jekyll:latest
+        image: ghcr.io/plantuml/docker/jekyll:latest
         container_name: jekyll
         environment:
           JEKYLL_SITE_NAME: myPlantUmlBlog
