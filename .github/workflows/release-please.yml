@@ -22,3 +22,7 @@ jobs:
           token: ${{ env.RELEASE_BOT_TOKEN }}
           monorepo-tags: true
           command: manifest
+          bump-minor-pre-major: true
+          bump-patch-for-minor-pre-major: true
+          release-type: simple
+          separate-pull-requests: true
