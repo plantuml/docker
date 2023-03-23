@@ -10,6 +10,9 @@
     },
     "jekyll": {
       "component": "jekyll"
+    },
+    "plantuml-cli": {
+      "component": "plantuml-cli"
     }
   }
 }
