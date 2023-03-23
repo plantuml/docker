@@ -7,7 +7,7 @@ on:
   pull_request:
     paths:
       - 'jekyll/**'
-      - '.github/workflows/**'
+
 permissions:
   contents: read
   packages: write
