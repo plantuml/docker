@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/plantuml/docker/compare/plantuml-cli-v1.0.0...plantuml-cli-v1.0.1) (2023-03-23)
+
+
+### Bug Fixes
+
+* **plantuml-cli:** fix container test script ([fb5fd46](https://github.com/plantuml/docker/commit/fb5fd463d38e7ec4b5248ef04b9170173ad2c0cf))
+
 ## 1.0.0 (2023-03-23)
 
 
