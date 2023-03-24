@@ -2,3 +2,5 @@
 .secrets
 
 .env
+
+plantuml-cli-build-event.json

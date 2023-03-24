@@ -1,0 +1,13 @@
+name: plantuml-cli Release
+run-name: plantuml-cli Release XXXXX
+
+on:
+  workflow_call:
+    inputs:
+
+permissions:
+
+
+jobs:
+  plantuml-cli-release:
+    runs-on: ubuntu-latest
