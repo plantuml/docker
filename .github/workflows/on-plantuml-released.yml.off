@@ -1,0 +1,121 @@
+name: On Plantuml Released
+run-name: On Plantuml Released ${{ github.event.client_payload.previous-release }} --> ${{ github.event.client_payload.release }}
+
+on:
+  repository_dispatch:
+    types: [plantuml/plantuml-released]
+
+env:
+  REPOSITORY: ${{ github.event.client_payload.repository }}
+  REF: ${{ github.event.client_payload.ref }}
+  SHA: ${{ github.event.client_payload.sha }}
+  RELEASE: ${{ github.event.client_payload.release }}
+  PRERELEASE: ${{ github.event.client_payload.prerelease }}
+  TAG: ${{ github.event.client_payload.tag }}
+  PREVIOUS_RELEASE: ${{ github.event.client_payload.previous-release }}
+
+permissions:
+    contents: read
+    pull-requests: write
+
+jobs:
+  update-plantuml-version-plantuml-cli:
+
+  release-announcement-graalvm:
+  if: github.event_name == 'release' && contains(github.ref, '/graalvm-v')
+  permissions:
+    contents: read
+  uses: ./.github/workflows/release-announcement.yml
+  with:
+    container-name: graalvm
+  secrets: inherit
+
+
+
+
+  update-maven-pom:
+    name: "Update maven pom file"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      # Store the version, stripping any v-prefix
+      - name: Write release version
+        id: write-version
+        env:
+          TAG: "${{ github.event.client_payload.tag }}"
+        run: |
+          VERSION=${TAG#v}
+          echo Version: $VERSION
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+
+      # Replace the version in the pom file
+      # https://github.com/marketplace/actions/edit-xml
+      - name: Set plantuml version
+        uses: Mudlet/xmlstarlet-action@master
+        env:
+          VERSION: ${{ steps.write-version.outputs.VERSION }}
+        with:
+          args: ed -P -L -u "//_:plantuml.version/text()" -v ${{ env.VERSION }} pom.xml
+
+      #https://github.com/marketplace/actions/create-pull-request
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        env:
+          VERSION: ${{ steps.write-version.outputs.VERSION }}
+        with:
+          branch: "update-plantuml-lib/${{ env.VERSION }}"
+          commit-message: "chore: update plantuml lib version to ${{ env.VERSION }}"
+          title: "Update plantuml lib version to ${{ env.VERSION }}"
+          body: |
+            This is an automated PR fired by a release event fired by a plantuml library release
+            New plantuml library version : ${{ env.VERSION }}
+
+
+
+
+
+
+
+
+
+
+
+
+  update-maven-pom:
+    name: "Update maven pom file"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      # Store the version, stripping any v-prefix
+      - name: Write release version
+        id: write-version
+        env:
+          TAG: "${{ github.event.client_payload.tag }}"
+        run: |
+          VERSION=${TAG#v}
+          echo Version: $VERSION
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+
+      # Replace the version in the pom file
+      # https://github.com/marketplace/actions/edit-xml
+      - name: Set plantuml version
+        uses: Mudlet/xmlstarlet-action@master
+        env:
+          VERSION: ${{ steps.write-version.outputs.VERSION }}
+        with:
+          args: ed -P -L -u "//_:plantuml.version/text()" -v ${{ env.VERSION }} pom.xml
+
+      #https://github.com/marketplace/actions/create-pull-request
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        env:
+          VERSION: ${{ steps.write-version.outputs.VERSION }}
+        with:
+          branch: "update-plantuml-lib/${{ env.VERSION }}"
+          commit-message: "chore: update plantuml lib version to ${{ env.VERSION }}"
+          title: "Update plantuml lib version to ${{ env.VERSION }}"
+          body: |
+            This is an automated PR fired by a release event fired by a plantuml library release
+            New plantuml library version : ${{ env.VERSION }}
