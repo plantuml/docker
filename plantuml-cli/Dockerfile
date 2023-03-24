@@ -7,7 +7,7 @@ RUN apk add --no-cache \
   wget \
   ca-certificates
 
-RUN wget \
+RUN wget -q \
   "https://github.com/plantuml/plantuml/releases/download/${PLANTUML_TAG}/plantuml-pdf-${PLANTUML_VERSION}.jar" \
   -O /opt/plantuml.jar
 
