@@ -50,7 +50,7 @@ test:
 
 .PHONY: enter
 enter:
-	docker run --rm -it --entrypoint /bin/bash $(DOCKER_IMAGE_NAME)
+	docker run --rm -it --volume "$(shell pwd)":/wd --workdir /wd --entrypoint /bin/bash $(DOCKER_IMAGE_NAME)
 
 # -----------------------------------------------------------------------------
 # Help
