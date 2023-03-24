@@ -2,11 +2,7 @@ name: Build plantuml-cli container image
 
 on:
   workflow_dispatch:
-    inputs:
-      ref:
-        type: string
-        required: true
-        default: ${{ github.ref }}
+
 #  push:
 #    tags:
 #      - 'plantuml-cli-v*'
@@ -19,8 +15,7 @@ permissions:
   packages: write
 
 env:
-  GHCR_USERNAME: evantill
-  #${{ github.actor }}
+  GHCR_USERNAME: ${{ github.actor }}
   GHCR_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
   TEST_TAG: plantuml-cli:test
   #WARNING do not use environment variable name BUILD_CONTEXT as it it is used by docker action
@@ -41,33 +36,21 @@ jobs:
           script: |
             // checkout-ref for PR ? for snapshot ? for release ? for manual triggering ?
             console.log(context)
+            /*
+            TODO define how to compute checkout-ref
+            for release ?
+            for snapshot ?
+            for ci ?
+            for manual trigger ?
+            for pr ?
+
+            $ {{ github.event_name != 'pull_request' && startsWith(github.ref, 'refs/tags/plantuml-cli-v') }}
+            */
             const conf = {
-              "publish": false,
+              publish: false,
               "checkout-ref": context.ref
             }
             return conf;
-      - name: FAIL
-        run: exit 1
-#        run: |-
-#          #
-#          # CHECKOUT_REF
-#          #
-#          # TODO
-#          # for release tag ?
-#          # for snapshot ?
-#          # for pr ?
-#          # for manual triggering ?
-#          CHECKOUT_REF=${{ github.ref }}
-#          #
-#          # PUBLISH
-#          #
-#          #PUBLISH=$ {{ github.event_name != 'pull_request' && startsWith(github.ref, 'refs/tags/plantuml-cli-v') }}
-#          PUBLISH=false
-#          #
-#          # outputs (use steps.conf.outputs.X to use its)
-#          #
-#          echo "checkout-ref=$CHECKOUT_REF" >> $GITHUB_OUTPUT
-#          echo "publish=$PUBLISH" >> $GITHUB_OUTPUT
       - name: Checkout
         uses: actions/checkout@v3
         with:
