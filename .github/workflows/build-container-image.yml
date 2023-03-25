@@ -44,12 +44,11 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
             type=sha
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+          labels: |
+            org.opencontainers.image.title=${{ inputs.container }}
+            org.opencontainers.image.description=${{ inputs.container }} container for PlantUML
+            org.opencontainers.image.url=${{ github.server_url }}/${{ github.repository }}/${{ inputs.container }}
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}/${{ inputs.container }}
 
       - name: Login to ghcr.io registry
         if: ${{ contains(inputs.publish, true) }}
