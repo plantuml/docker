@@ -34,7 +34,6 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ${{ github.repository_owner }}/${{ inputs.container }}
             ghcr.io/${{ github.repository }}/${{ inputs.container }}
           # generate Docker tags based on the following events/attributes
           tags: |
