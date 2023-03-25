@@ -9,13 +9,13 @@ on:
         type: boolean
         description: publish the container
       plantuml_version:
-        required: true
+        required: false
         type: string
-        default: SNAPSHOT
+        description: use SNAPSHOT for snapshot release
       plantuml_tag:
-        required: true
+        required: false
         type: string
-        default: snapshot
+        description: use snapshot for snapshot release
   push:
     tags:
       - 'plantuml-cli-v*'
@@ -33,12 +33,19 @@ jobs:
     with:
       releaseTagPrefix: plantuml-cli-v
     secrets: inherit
+  plantuml-cli-load-plantuml-configuration:
+    uses: ./.github/workflows/load-plantuml-configuration.yml
+    with:
+      container: plantuml-cli
+    secrets: inherit
   plantuml-cli-build-container-image:
-    needs: plantuml-cli-configure-publication
+    needs: 
+      - plantuml-cli-configure-publication
+      - plantuml-cli-load-plantuml-configuration
     uses: ./.github/workflows/build-container-image.yml
     with:
       container: plantuml-cli
       publish: ${{ contains(needs.plantuml-cli-configure-publication.outputs.publish,true) }}
-      plantuml_version: ${{ inputs.plantuml_version }}
-      plantuml_tag: ${{ inputs.plantuml_tag }}
+      plantuml_version: ${{ needs.plantuml-cli-load-plantuml-configuration.outputs.plantuml_version }}
+      plantuml_tag: ${{ needs.plantuml-cli-load-plantuml-configuration.outputs.plantuml_tag }}
     secrets: inherit

@@ -1,0 +1,47 @@
+name: Load plantuml configuration
+
+on:
+  workflow_call:
+    inputs:
+      container:
+        required: true
+        type: string
+    outputs:
+      plantuml_version:
+        description: plantuml version
+        value: ${{ jobs.load-plantuml-configuration.outputs.plantuml_version }}
+      plantuml_tag:
+        description: plantuml tag
+        value: ${{ jobs.load-plantuml-configuration.outputs.plantuml_tag }}
+
+permissions:
+  contents: read
+
+jobs:
+  load-plantuml-configuration:
+    runs-on: ubuntu-latest
+    outputs:
+      plantuml_version: ${{ steps.load.outputs.plantuml_version }}
+      plantuml_tag: ${{ steps.load.outputs.plantuml_tag }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Load plantuml.json
+        uses: actions/github-script@v6
+        id: load
+        with:
+          script: |
+            //see https://github.com/actions/toolkit/blob/main/packages/github/src/context.ts for context content
+            core.info('load plantuml.json');
+            const fs = require('fs');
+            let rawdata = fs.readFileSync('${{ inputs.container }}/plantuml.json');
+            let plantumlConfig = JSON.parse(rawdata);
+            console.info(plantumlConfig);
+            const eventName = context.eventName;
+            if(eventName == 'workflow_dispatch'){
+              plantumlConfig.version = context.payload.inputs.plantuml_version || plantumlConfig.version;
+              plantumlConfig.tag = context.payload.inputs.plantuml_tag || plantumlConfig.tag;
+            }
+            console.info(plantumlConfig);
+            core.setOutput('plantuml_version',plantumlConfig.version);
+            core.setOutput('plantuml_tag',plantumlConfig.tag);

@@ -25,7 +25,6 @@ jobs:
         id: strategy
         with:
           script: |
-            console.log(context);
             //see https://github.com/actions/toolkit/blob/main/packages/github/src/context.ts for context content
             const eventName = context.eventName;
             if(eventName == 'workflow_dispatch'){
