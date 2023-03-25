@@ -3,14 +3,6 @@ name: plantuml-cli build container image
 on:
   workflow_dispatch:
     inputs:
-      container:
-        required: true
-        type: choice
-        description: container name to build
-        options:
-          - "plantuml-cli"
-          - "graalvm"
-          - "jekyll"
       publish:
         required: true
         default: false
