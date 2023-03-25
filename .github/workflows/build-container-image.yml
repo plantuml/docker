@@ -9,6 +9,12 @@ on:
       publish:
         required: true
         type: boolean
+      plantuml_version:
+        required: true
+        type: string
+      plantuml_tag:
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -21,6 +27,8 @@ env:
   GHCR_USERNAME: ${{ github.actor }}
   GHCR_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
   TEST_TAG: ${{ inputs.container }}:test
+  PLANTUML_VERSION: ${{ inputs.plantuml_version }}
+  PLANTUML_TAG: ${{ inputs.plantuml_tag }}
 
 jobs:
   build-container-image:
@@ -46,9 +54,9 @@ jobs:
             type=sha
           labels: |
             org.opencontainers.image.title=${{ inputs.container }}
-            org.opencontainers.image.description=${{ inputs.container }} container for PlantUML
-            org.opencontainers.image.url=${{ github.server_url }}/${{ github.repository }}/${{ inputs.container }}
-            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}/${{ inputs.container }}
+            org.opencontainers.image.description=${{ inputs.container }} container for PlantUML version ${{ inputs.plantuml_version }}
+            org.opencontainers.image.url=${{ github.server_url }}/${{ github.repository }}/tree/main/${{ inputs.container }}
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}/tree/main/${{ inputs.container }}
 
       - name: Login to ghcr.io registry
         if: ${{ contains(inputs.publish, true) }}
@@ -64,6 +72,9 @@ jobs:
           context: ${{ inputs.container }}
           load: true
           tags: ${{ env.TEST_TAG }}
+          build-args: |
+            PLANTUML_TAG=${{ inputs.plantuml_tag }}
+            PLANTUML_VERSION=${{ inputs.plantuml_version }}
 
       - name: Test container image
         run: |
@@ -77,6 +88,9 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            PLANTUML_TAG=${{ inputs.plantuml_tag }}
+            PLANTUML_VERSION=${{ inputs.plantuml_version }}
 
       - name: Summary
         env:
@@ -84,10 +98,17 @@ jobs:
           LABELS: ${{ steps.meta.outputs.labels }}
           PUBLISHED: ${{ inputs.publish }}
           CONTAINER: ${{ inputs.container }}
+          PLANTUML_TAG: ${{ inputs.plantuml_tag }}
+          PLANTUML_VERSION: ${{ inputs.plantuml_version }}
         run: |
           echo "## Summary:" >> $GITHUB_STEP_SUMMARY
           echo "Container: $CONTAINER" >> $GITHUB_STEP_SUMMARY
           echo "Published: $PUBLISHED" >> $GITHUB_STEP_SUMMARY
+
+          echo "### PlantUML version" >> $GITHUB_STEP_SUMMARY
+          echo "$PLANTUML_VERSION" >> $GITHUB_STEP_SUMMARY
+          echo "### PlantUML tag" >> $GITHUB_STEP_SUMMARY
+          echo "$PLANTUML_TAG" >> $GITHUB_STEP_SUMMARY
 
           echo "### Tags" >> $GITHUB_STEP_SUMMARY
           echo "$TAGS" >> $GITHUB_STEP_SUMMARY

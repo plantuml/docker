@@ -8,12 +8,20 @@ on:
         default: false
         type: boolean
         description: publish the container
-#  push:
-#    tags:
-#      - 'plantuml-cli-v*'
-#  pull_request:
-#    paths:
-#      - 'plantuml-cli/**'
+      plantuml_version:
+        required: true
+        type: string
+        default: SNAPSHOT
+      plantuml_tag:
+        required: true
+        type: string
+        default: snapshot
+  push:
+    tags:
+      - 'plantuml-cli-v*'
+  pull_request:
+    paths:
+      - 'plantuml-cli/**'
 
 permissions:
   contents: read
@@ -31,5 +39,6 @@ jobs:
     with:
       container: plantuml-cli
       publish: ${{ contains(needs.plantuml-cli-configure-publication.outputs.publish,true) }}
+      plantuml_version: ${{ inputs.plantuml_version }}
+      plantuml_tag: ${{ inputs.plantuml_tag }}
     secrets: inherit
-

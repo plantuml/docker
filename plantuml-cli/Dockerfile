@@ -1,7 +1,7 @@
 FROM alpine:latest AS loader
 
-ARG PLANTUML_TAG=snapshot
-ARG PLANTUML_VERSION=SNAPSHOT
+ARG PLANTUML_TAG
+ARG PLANTUML_VERSION
 
 RUN apk add --no-cache \
   wget \
@@ -22,9 +22,6 @@ RUN apt-get update \
   && apt-get autoremove \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
-
-ARG PLANTUML_TAG=SNAPSHOT
-ARG PLANTUML_VERSION=SNAPSHOT
 
 ENV PLANTUML_TAG=${PLANTUML_TAG}
 ENV PLANTUML_VERSION=${PLANTUML_VERSION}
