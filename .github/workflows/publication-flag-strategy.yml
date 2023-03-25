@@ -1,0 +1,42 @@
+name: Publication flag strategy
+
+on:
+  workflow_call:
+    inputs:
+      releaseTagPrefix:
+        required: true
+        type: string
+    outputs:
+      publish:
+        description: publish container image flag
+        value: ${{ jobs.publication-flag-strategy.outputs.publish }}
+
+permissions:
+  contents: read
+
+jobs:
+  publication-flag-strategy:
+    runs-on: ubuntu-latest
+    outputs:
+      publish: ${{ steps.strategy.outputs.result }}
+    steps:
+      - name: Configure publication
+        uses: actions/github-script@v6
+        id: strategy
+        with:
+          script: |
+            console.log(context);
+            //see https://github.com/actions/toolkit/blob/main/packages/github/src/context.ts for context content
+            const eventName = context.eventName;
+            if(eventName == 'workflow_dispatch'){
+              return context.payload.inputs.publish;
+            }else if(eventName == 'push'){
+              const releaseTagPrefix="${{ inputs.releaseTagPrefix }}";
+              const isReleaseTag = context.ref.startsWith('refs/tags/'+releaseTagPrefix);
+              return isReleaseTag;
+            }else if(eventName == 'pull_request'){
+              //maybe add some tag on the PR to define if we need to publish
+              return false;
+            }else{
+              return false;
+            }

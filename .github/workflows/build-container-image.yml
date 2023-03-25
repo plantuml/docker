@@ -1,0 +1,78 @@
+name: Build container image
+
+on:
+  workflow_call:
+    inputs:
+      container:
+        required: true
+        type: string
+      publish:
+        required: true
+        type: boolean
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  CONTAINER_NAME: ${{ github.event.inputs.container }}
+  CONTAINER_DESCRIPTION: ${{ github.event.inputs.container }} container for PlantUML
+  RELEASE_TAG_PREFIX: ${{ github.event.inputs.container }}-v
+  GHCR_USERNAME: ${{ github.actor }}
+  GHCR_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+  TEST_TAG: ${{ github.event.inputs.container }}:test
+
+jobs:
+  build-container-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to ghcr.io registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ env.GHCR_USERNAME }}
+          password: ${{ env.GHCR_PASSWORD }}
+      - name: Extract Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ghcr.io/${{ github.repository }}/${{ github.event.inputs.container }}
+      - name: Build locally
+        uses: docker/build-push-action@v4
+        with:
+          context: ${{ github.event.inputs.container }}
+          load: true
+          tags: ${{ env.TEST_TAG }}
+      - name: Test container image
+        run: |
+          docker run --rm --entrypoint /bin/bash ${{ env.TEST_TAG }} container-test.sh
+      - name: Push container image
+        if: ${{ contains(github.event.inputs.publish, true) }}
+        uses: docker/build-push-action@v4
+        with:
+          context: ${{ github.event.inputs.container }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+      - name: Summary
+        env:
+          TAGS: ${{ steps.meta.outputs.tags }}
+          LABELS: ${{ steps.meta.outputs.labels }}
+          PUBLISHED: ${{ github.event.inputs.publish }}
+          CONTAINER: ${{ github.event.inputs.container }}
+        run: |
+          echo "## Summary:" >> $GITHUB_STEP_SUMMARY
+          echo "Container: $CONTAINER" >> $GITHUB_STEP_SUMMARY
+          echo "Published: $PUBLISHED" >> $GITHUB_STEP_SUMMARY
+
+          echo "### Tags" >> $GITHUB_STEP_SUMMARY
+          echo "$TAGS" >> $GITHUB_STEP_SUMMARY
+
+          echo "### Labels" >> $GITHUB_STEP_SUMMARY
+          echo "$LABELS" >> $GITHUB_STEP_SUMMARY
