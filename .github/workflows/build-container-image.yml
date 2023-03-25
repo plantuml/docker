@@ -15,12 +15,12 @@ permissions:
   packages: write
 
 env:
-  CONTAINER_NAME: ${{ github.event.inputs.container }}
-  CONTAINER_DESCRIPTION: ${{ github.event.inputs.container }} container for PlantUML
-  RELEASE_TAG_PREFIX: ${{ github.event.inputs.container }}-v
+  CONTAINER_NAME: ${{ inputs.container }}
+  CONTAINER_DESCRIPTION: ${{ inputs.container }} container for PlantUML
+  RELEASE_TAG_PREFIX: ${{ inputs.container }}-v
   GHCR_USERNAME: ${{ github.actor }}
   GHCR_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-  TEST_TAG: ${{ github.event.inputs.container }}:test
+  TEST_TAG: ${{ inputs.container }}:test
 
 jobs:
   build-container-image:
@@ -34,8 +34,8 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ${{ github.repository_owner }}/${{ github.event.inputs.container }}
-            ghcr.io/${{ github.repository }}/${{ github.event.inputs.container }}
+            ${{ github.repository_owner }}/${{ inputs.container }}
+            ghcr.io/${{ github.repository }}/${{ inputs.container }}
           # generate Docker tags based on the following events/attributes
           tags: |
             type=schedule
@@ -53,7 +53,7 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Login to ghcr.io registry
-        if: ${{ contains(github.event.inputs.publish, true) }}
+        if: ${{ contains(inputs.publish, true) }}
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
@@ -63,7 +63,7 @@ jobs:
       - name: Build locally
         uses: docker/build-push-action@v4
         with:
-          context: ${{ github.event.inputs.container }}
+          context: ${{ inputs.container }}
           load: true
           tags: ${{ env.TEST_TAG }}
 
@@ -72,10 +72,10 @@ jobs:
           docker run --rm --entrypoint /bin/bash ${{ env.TEST_TAG }} container-test.sh
 
       - name: Push container image
-        if: ${{ contains(github.event.inputs.publish, true) }}
+        if: ${{ contains(inputs.publish, true) }}
         uses: docker/build-push-action@v4
         with:
-          context: ${{ github.event.inputs.container }}
+          context: ${{ inputs.container }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -84,8 +84,8 @@ jobs:
         env:
           TAGS: ${{ steps.meta.outputs.tags }}
           LABELS: ${{ steps.meta.outputs.labels }}
-          PUBLISHED: ${{ github.event.inputs.publish }}
-          CONTAINER: ${{ github.event.inputs.container }}
+          PUBLISHED: ${{ inputs.publish }}
+          CONTAINER: ${{ inputs.container }}
         run: |
           echo "## Summary:" >> $GITHUB_STEP_SUMMARY
           echo "Container: $CONTAINER" >> $GITHUB_STEP_SUMMARY
